@@ -3,6 +3,8 @@
     <div
       :style="{ paddingBottom: `${aspectRatio}%` }"
       class="AppSlider__slides"
+      @mouseenter="paused = true"
+      @mouseleave="paused = false"
     >
       <img
         v-for="(image, index) in images"
@@ -54,6 +56,7 @@ export default {
   data() {
     return {
       activeIndex: 0,
+      paused: false,
       time: this.interval,
     };
   },
@@ -95,7 +98,7 @@ export default {
     startInterval() {
       const precision = 100;
       const clock = setInterval(() => {
-        this.time -= precision;
+        if (!this.paused) this.time -= precision;
         if (this.time <= 0) this.next();
       }, precision);
 
