@@ -1,7 +1,13 @@
 <template>
   <div class="AppSlider">
-    <div
+    <transition-group
+      :duration="1000"
       :style="{ paddingBottom: `${aspectRatio}%` }"
+      tag="div"
+      enter-active-class="AppSlider__enterActive"
+      enter-class="AppSlider__enter"
+      leave-active-class="AppSlider__leaveActive"
+      leave-to-class="AppSlider__leaveTo"
       class="AppSlider__slides"
       @mouseenter="paused = true"
       @mouseleave="paused = false"
@@ -14,7 +20,7 @@
         class="AppSlider__image"
         alt=""
       >
-    </div>
+    </transition-group>
     <div class="AppSlider__controls">
       <button
         class="AppSlider__control"
@@ -45,7 +51,7 @@ export default {
       type: Array,
     },
     interval: {
-      default: 2000,
+      default: 10000,
       type: Number,
     },
     width: {
@@ -114,11 +120,29 @@ export default {
 .AppSlider {
   &__slides {
     position: relative;
+    overflow: hidden;
   }
 
   &__image {
     position: absolute;
     width: 100%;
+
+    // Enable the effect only
+    // on large screen devices.
+    @media (min-width: 42em) {
+      animation: kenburns 8s;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &__enterActive,
+  &__leaveActive {
+    transition: opacity 1s;
+  }
+
+  &__enter,
+  &__leaveTo {
+    opacity: 0;
   }
 
   &__controls {
@@ -132,6 +156,12 @@ export default {
     border: none; // 1
     background-color: transparent; // 1
     font-size: 1.25em;
+  }
+
+  @keyframes kenburns {
+    100% {
+      transform: scale3d(1.25, 1.25, 1.25) translate3d(-10%, -5%, 0);
+    }
   }
 }
 </style>
