@@ -42,6 +42,10 @@ export default {
       default: () => [],
       type: Array,
     },
+    interval: {
+      default: 2000,
+      type: Number,
+    },
     width: {
       default: 1280,
       type: Number,
@@ -50,6 +54,7 @@ export default {
   data() {
     return {
       activeIndex: 0,
+      time: this.interval,
     };
   },
   computed: {
@@ -57,9 +62,13 @@ export default {
       return (this.height / this.width) * 100;
     },
   },
+  created() {
+    this.startInterval();
+  },
   methods: {
     goToIndex(index) {
       this.activeIndex = index;
+      this.time = this.interval;
     },
     next() {
       let nextIndex = this.activeIndex + 1;
@@ -82,6 +91,17 @@ export default {
       }
 
       this.goToIndex(nextIndex);
+    },
+    startInterval() {
+      const precision = 100;
+      const clock = setInterval(() => {
+        this.time -= precision;
+        if (this.time <= 0) this.next();
+      }, precision);
+
+      // Clear the interval if the component
+      // is destroyed to prevent memory leaks.
+      this.$once(`hook:destroyed`, () => clearInterval(clock));
     },
   },
 };
