@@ -21,7 +21,8 @@
     "reset-css": "^4.0.1",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.17",
+    "vue2-touch-events": "^1.0.0"
   },
   "devDependencies": {
     "@avalanche/eslint-config": "^3.0.0",

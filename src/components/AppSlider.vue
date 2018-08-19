@@ -1,6 +1,8 @@
 <template>
   <div class="AppSlider">
     <transition-group
+      v-touch:swipe.right="next"
+      v-touch:swipe.left="prev"
       :duration="1000"
       :style="{ paddingBottom: `${aspectRatio}%` }"
       tag="div"
